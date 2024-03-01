@@ -48,21 +48,21 @@ class PrisonRole(interactions.Extension):
     @interactions.slash_option(
     name="days",
     required=False,
-    opt_type=interactions.OptionType.INTEGER
+    opt_type=interactions.OptionType.INTEGER,
     min_value=0
-)   
+    )   
     @interactions.slash_option(
     name="hours",
     required=False,
-    opt_type=interactions.OptionType.INTEGER
+    opt_type=interactions.OptionType.INTEGER,
     min_value=0
-)   
+    )   
     @interactions.slash_option(
     name="minutes",
     required=False,
-    opt_type=interactions.OptionType.INTEGER
+    opt_type=interactions.OptionType.INTEGER,
     min_value=0
-)
+    )
     async def jail(self, ctx: interactions.SlashContext, member:interactions.Member,days: int = 0, hours: int = 0, minutes: int = 0):
         c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup("bot_setup.json")
         if any(role.name in allowed_roles for role in ctx.user.roles):

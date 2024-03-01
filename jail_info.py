@@ -5,6 +5,7 @@ def load_jailed_members():
         with open(jail_file, 'w') as f:
             return json.load(f)
     except FileNotFoundError:
+        print('file not found!')
         return {}
 
 # Save jailed members to the file

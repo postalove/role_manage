@@ -2,7 +2,7 @@ import json
 jail_file = "jailed_members.json"
 def load_jailed_members():
     try:
-        with open(jail_file, 'r') as f:
+        with open(jail_file, 'w') as f:
             return json.load(f)
     except FileNotFoundError:
         return {}

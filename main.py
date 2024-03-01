@@ -104,7 +104,7 @@ class RoleManager(interactions.Extension):
         if not jailed_members:
                 # The jailed_members dictionary is empty, no need to iterate
             await asyncio.sleep(5)
-            continue
+            
 
         for member_id, info in list(jailed_members.items()):
             release_time = datetime.fromisoformat(info["release_time"])

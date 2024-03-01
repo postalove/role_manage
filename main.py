@@ -122,3 +122,47 @@ class RoleManager(interactions.Extension):
                     jail_info.save_jailed_members(jailed_members)
 
         await asyncio.sleep(5) # Check every 60 seconds
+
+    @module_group.subcommand("release", sub_cmd_description="关押囚犯")
+    @interactions.slash_option(
+        name = "member",
+        description='member you want to jail',
+        required = True,
+        opt_type = interactions.OptionType.USER
+        )
+    async def release(self,ctx: interactions.SlashContext, member:interactions.Member):
+        c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup("bot_setup.json")
+        if any(role.name in allowed_roles for role in ctx.author.roles):
+            prisoner= interactions.utils.get(ctx.guild.roles,name = '囚犯')
+            citizen = interactions.utils.get(ctx.guild.roles,name = '正式成员')
+            if prisoner is None:
+                    await ctx.send("Role '囚犯' not found. Please create the role first.")
+                    return
+
+        
+
+            # Remove jailed member info from the file
+            jailed_members = jail_info.load_jailed_members()
+            if str(member.id) in jailed_members:
+                del jailed_members[str(member.id)]
+                jail_info.save_jailed_members(jailed_members)
+                await member.remove_role(prisoner)
+                await member.add_role(citizen)
+                await ctx.send(f"{member.mention} has been manually released from jail.")
+                log_channel = ctx.guild.get_channel(log_channel_id)
+                embed = interactions.Embed(
+        title=f"",
+        description="{ctx.user.mention} released {member.mention}",
+        color=0x00FF00
+    )
+                await log_channel.send(embed=embed)
+            elif prisoner not in member.roles:
+                await ctx.send(f"{member.display_name} is not a prisoner.")
+            else:
+                await member.remove_role(prisoner)
+                await member.add_role(citizen)
+                await ctx.send(f"{member.mention} has been manually released from jail.")
+
+        else:
+            await ctx.send('你无权这么做!')
+        

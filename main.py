@@ -109,20 +109,16 @@ class RoleManager(interactions.Extension):
         for member_id, info in list(jailed_members.items()):
             release_time = datetime.fromisoformat(info["release_time"])
             if datetime.utcnow() >= release_time:
-                    
-                    
+                
+                member = guild.get_member(int(member_id))
 
-                        # Check if the guild is not None
-                if member_id is not None:
-                        member = guild.get_member(int(member_id))
+                if member is not None:
+                    prisoner = interactions.utils.get(guild.roles, name='囚犯')
+                    citizen = interactions.utils.get(guild.roles, name='正式成员')
+                    await member.remove_role(prisoner)
+                    await member.add_role(citizen)
 
-                    if member is not None:
-                        prisoner = interactions.utils.get(guild.roles, name='囚犯')
-                        citizen = interactions.utils.get(guild.roles, name='正式成员')
-                        await member.remove_role(prisoner)
-                        await member.add_role(citizen)
-
-                        del jailed_members[member_id]
-                        jail_info.save_jailed_members(jailed_members)
+                    del jailed_members[member_id]
+                    jail_info.save_jailed_members(jailed_members)
 
         await asyncio.sleep(5) # Check every 60 seconds

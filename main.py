@@ -126,7 +126,7 @@ class RoleManager(interactions.Extension):
     @module_group.subcommand("release", sub_cmd_description="关押囚犯")
     @interactions.slash_option(
         name = "member",
-        description='member you want to jail',
+        description='member you want to release',
         required = True,
         opt_type = interactions.OptionType.USER
         )

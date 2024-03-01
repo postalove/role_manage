@@ -94,15 +94,15 @@ class RoleManager(interactions.Extension):
         else:
             await ctx.send('你无权这么做!')
     
-    @interactions.listen(interactions.api.events.MessageCreate)
+    @interactions.listen(self,interactions.api.events.MessageCreate)
     async def check_jailed_member():
         c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup("bot_setup.json")
-        guild= await interactions.Client.get_guild(guild_id)
+        guild=self.bot.get_guild(guild_id)
         
         jailed_members = jail_info.load_jailed_members()
 
         if not jailed_members:
-                # The jailed_members dictionary is empty, no need to iterate
+                
             await asyncio.sleep(5)
             return
         

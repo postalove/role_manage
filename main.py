@@ -123,7 +123,7 @@ class RoleManager(interactions.Extension):
 
         await asyncio.sleep(5) # Check every 60 seconds
 
-    @module_group.subcommand("release", sub_cmd_description="关押囚犯")
+    @module_group.subcommand("release", sub_cmd_description="手动释放囚犯")
     @interactions.slash_option(
         name = "member",
         description='member you want to release',

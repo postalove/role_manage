@@ -41,22 +41,25 @@ class PrisonRole(interactions.Extension):
     @module_group.subcommand("jail", sub_cmd_description="关押囚犯")
     @interactions.slash_option(
         name = "member",
-        
+        description='member you want to jail',
         required = True,
         opt_type = interactions.OptionType.USER
     )
     @interactions.slash_option(
     name="days",
+    description='days',
     opt_type=interactions.OptionType.INTEGER,
     min_value=0
     )   
     @interactions.slash_option(
     name="hours",
+    description='hours',
     opt_type=interactions.OptionType.INTEGER,
     min_value=0
     )   
     @interactions.slash_option(
     name="minutes",
+    description='minutes',
     opt_type=interactions.OptionType.INTEGER,
     min_value=0
     )

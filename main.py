@@ -74,9 +74,9 @@ class RoleManager(interactions.Extension):
                 return
             duration_minutes = days * 24 * 60 + hours * 60 + minutes
 
-            await member.add_roles(prisoner)
-            await member.remove_roles(citizen)
-            await member.remove_roles(voter)
+            await member.add_role(prisoner)
+            await member.remove_role(citizen)
+            await member.remove_role(voter)
             
             jailed_members = jail_info.load_jailed_members()
             release_time = datetime.utcnow() + timedelta(minutes=duration_minutes)
@@ -119,8 +119,8 @@ class RoleManager(interactions.Extension):
                         if member is not None:
                             prisoner = interactions.utils.get(guild.roles, name='囚犯')
                             citizen = interactions.utils.get(guild.roles, name='正式成员')
-                            await member.remove_roles(prisoner)
-                            await member.add_roles(citizen)
+                            await member.remove_role(prisoner)
+                            await member.add_role(citizen)
 
                         del jailed_members[member_id]
                         jail_info.save_jailed_members(jailed_members)

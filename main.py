@@ -94,35 +94,35 @@ class RoleManager(interactions.Extension):
         else:
             await ctx.send('你无权这么做!')
     
-    @interactions.listen(interactions.api.events.ExtensionLoad)
+    @interactions.listen(interactions.api.events.MessageCreate)
     async def check_jailed_member():
         c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup("bot_setup.json")
         guild= await interactions.Client.get_guild(guild_id)
-        while True:
-            jailed_members = jail_info.load_jailed_members()
+        
+        jailed_members = jail_info.load_jailed_members()
 
-            if not jailed_members:
+        if not jailed_members:
                 # The jailed_members dictionary is empty, no need to iterate
-                await asyncio.sleep(5)
-                continue
+            await asyncio.sleep(5)
+            continue
 
-            for member_id, info in list(jailed_members.items()):
-                release_time = datetime.fromisoformat(info["release_time"])
-                if datetime.utcnow() >= release_time:
+        for member_id, info in list(jailed_members.items()):
+            release_time = datetime.fromisoformat(info["release_time"])
+            if datetime.utcnow() >= release_time:
                     
                     
 
                         # Check if the guild is not None
-                    if member_id is not None:
+                if member_id is not None:
                         member = guild.get_member(int(member_id))
 
-                        if member is not None:
-                            prisoner = interactions.utils.get(guild.roles, name='囚犯')
-                            citizen = interactions.utils.get(guild.roles, name='正式成员')
-                            await member.remove_role(prisoner)
-                            await member.add_role(citizen)
+                    if member is not None:
+                        prisoner = interactions.utils.get(guild.roles, name='囚犯')
+                        citizen = interactions.utils.get(guild.roles, name='正式成员')
+                        await member.remove_role(prisoner)
+                        await member.add_role(citizen)
 
                         del jailed_members[member_id]
                         jail_info.save_jailed_members(jailed_members)
 
-            await asyncio.sleep(5) # Check every 60 seconds
+        await asyncio.sleep(5) # Check every 60 seconds

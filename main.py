@@ -94,8 +94,8 @@ class RoleManager(interactions.Extension):
         else:
             await ctx.send('你无权这么做!')
     
-    @interactions.listen(self,interactions.api.events.MessageCreate)
-    async def check_jailed_member():
+    @interactions.listen(interactions.api.events.MessageCreate)
+    async def check_jailed_member(self):
         c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup("bot_setup.json")
         guild=self.bot.get_guild(guild_id)
         

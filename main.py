@@ -65,7 +65,7 @@ class RoleManager(interactions.Extension):
     )
     async def jail_member(self, ctx: interactions.SlashContext, member:interactions.Member,days: int = 0, hours: int = 0, minutes: int = 0):
         c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup("bot_setup.json")
-        if any(role.name in allowed_roles for role in ctx.user.roles):
+        if any(role.name in allowed_roles for role in ctx.author.roles):
             prisoner= interactions.utils.get(ctx.guild.roles,name = '囚犯')
             citizen = interactions.utils.get(ctx.guild.roles,name = '正式成员')
             voter = interactions.utils.get(ctx.guild.roles,name = '选民')

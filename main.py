@@ -26,19 +26,19 @@ from . import jail_info
 '''
 Replace the ModuleName with any name you'd like
 '''
-class PrisonRole(interactions.Extension):
+class RoleManager(interactions.Extension):
     module_base: interactions.SlashCommand = interactions.SlashCommand(
-        name="role",
+        name="judge_role",
         description="Replace here for the base command descriptions"
     )
     module_group: interactions.SlashCommand = module_base.group(
-        name="member",
+        name="can",
         description="Replace here for the group command descriptions"
     )
 
     
     
-    @module_group.subcommand("jail", sub_cmd_description="关押囚犯")
+    @module_group.subcommand("jail_member", sub_cmd_description="关押囚犯")
     @interactions.slash_option(
         name = "member",
         description='member you want to jail',
@@ -63,7 +63,7 @@ class PrisonRole(interactions.Extension):
     opt_type=interactions.OptionType.INTEGER,
     min_value=0
     )
-    async def jail(self, ctx: interactions.SlashContext, member:interactions.Member,days: int = 0, hours: int = 0, minutes: int = 0):
+    async def jail_member(self, ctx: interactions.SlashContext, member:interactions.Member,days: int = 0, hours: int = 0, minutes: int = 0):
         c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup("bot_setup.json")
         if any(role.name in allowed_roles for role in ctx.user.roles):
             prisoner= interactions.utils.get(ctx.guild.roles,name = '囚犯')

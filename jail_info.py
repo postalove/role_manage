@@ -2,7 +2,7 @@ import json
 import os
  
 def load_jailed_members():
-    filename = f'{os.path.dirname(__file__)}/jailed_members.json'
+    filename = 'jailed_members.json'
     with open(filename, 'r+') as f:
         return json.load(f)
 

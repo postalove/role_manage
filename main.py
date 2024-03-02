@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import interactions
 from datetime import datetime, timedelta
 import asyncio
+import os
 # Use the following method to import the internal module in the current same directory
 from . import load_constant
 from . import jail_info
@@ -64,7 +65,7 @@ class RoleManager(interactions.Extension):
     min_value=0
     )
     async def jail_member(self, ctx: interactions.SlashContext, member:interactions.Member,days: int = 0, hours: int = 0, minutes: int = 0):
-        c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup("bot_setup.json")
+        c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup(f'{os.path.dirname(__file__)}/bot_setup.json')
         if any(role.name in allowed_roles for role in ctx.author.roles):
             prisoner= interactions.utils.get(ctx.guild.roles,name = '囚犯')
             citizen = interactions.utils.get(ctx.guild.roles,name = '正式成员')
@@ -131,7 +132,7 @@ class RoleManager(interactions.Extension):
         opt_type = interactions.OptionType.USER
         )
     async def release(self,ctx: interactions.SlashContext, member:interactions.Member):
-        c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup("bot_setup.json")
+        c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup(f'{os.path.dirname(__file__)}/bot_setup.json')
         if any(role.name in allowed_roles for role in ctx.author.roles):
             prisoner= interactions.utils.get(ctx.guild.roles,name = '囚犯')
             citizen = interactions.utils.get(ctx.guild.roles,name = '正式成员')

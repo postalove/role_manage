@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 import json
+import os
 censor_roles=['入群审核员']
 allowed_roles = ["典狱长", "议员","法官"]
 log_channel_id=1166627731916734504
@@ -29,7 +30,7 @@ data = {
     "guild_id" : guild_id
 }
 
-with open("bot_setup.json", "w") as file:
+with open(f'{os.path.dirname(__file__)}/bot_setup.json', "w") as file:
     json.dump(data, file)
 
 def extract_bot_setup(filename):

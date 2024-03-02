@@ -1,5 +1,6 @@
 import json
-jail_file = "jailed_members.json"
+import os
+jail_file = f'{os.path.dirname(__file__)}/jailed_members.json'
 def load_jailed_members():
     try:
         with open(jail_file, 'w') as f:

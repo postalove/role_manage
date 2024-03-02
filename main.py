@@ -39,7 +39,7 @@ class RoleManager(interactions.Extension):
 
     
     
-    @module_base.subcommand("jail_member", sub_cmd_description="关押囚犯")
+    @module_base.subcommand("jail", sub_cmd_description="关押囚犯")
     @interactions.slash_option(
         name = "member",
         description='member you want to jail',

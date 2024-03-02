@@ -2,12 +2,13 @@ import json
 import os
  
 def load_jailed_members():
-    try:
-        with open(f'{os.path.dirname(__file__)}/jailed_members.json', 'r+') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print('file not found!')
-        return {}
+    filename = f'{os.path.dirname(__file__)}/jailed_members.json'
+    if not os.path.exists(filename):
+        with open(filename, 'w') as f:
+            json.dump({}, f)
+    with open(filename, 'r') as f:
+        return json.load(f)
+
 
 # Save jailed members to the file
 def save_jailed_members(jailed_members):

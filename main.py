@@ -29,17 +29,17 @@ Replace the ModuleName with any name you'd like
 '''
 class RoleManager(interactions.Extension):
     module_base: interactions.SlashCommand = interactions.SlashCommand(
-        name="judge_role",
-        description="Replace here for the base command descriptions"
+        name="judge",
+        description="法官"
     )
-    module_group: interactions.SlashCommand = module_base.group(
+    '''module_group: interactions.SlashCommand = module_base.group(
         name="can",
         description="Replace here for the group command descriptions"
-    )
+    )'''
 
     
     
-    @module_group.subcommand("jail_member", sub_cmd_description="关押囚犯")
+    @module_base.subcommand("jail_member", sub_cmd_description="关押囚犯")
     @interactions.slash_option(
         name = "member",
         description='member you want to jail',
@@ -124,7 +124,7 @@ class RoleManager(interactions.Extension):
 
         await asyncio.sleep(5) # Check every 60 seconds
 
-    @module_group.subcommand("release", sub_cmd_description="手动释放囚犯")
+    @module_base.subcommand("release", sub_cmd_description="手动释放囚犯")
     @interactions.slash_option(
         name = "member",
         description='member you want to release',

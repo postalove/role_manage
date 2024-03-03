@@ -130,8 +130,8 @@ class RoleManager(interactions.Extension):
         if tech not in ctx.author.roles:
             ctx.send('你无权这么做!')
             return
-        if not self.bot.check_jailed_member.running :
-            self.bot.check_jailed_member.start()
+        if not self.check_jailed_member.running :
+            self.check_jailed_member.start()
             await ctx.send('自动释放囚犯程序已启动')
             return
         else:

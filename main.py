@@ -123,9 +123,10 @@ class RoleManager(interactions.Extension):
                     del jailed_members[member_id]
                     jail_info.save_jailed_members(jailed_members)
 
-    @interactions.listen(interactions.api.events.ExtensionLoad)
+    @interactions.listen(interactions.api.events.MessageCreate)
     async def start_checking_jailed_members(self):
-        self.bot.check_jailed_member.start()
+        if not self.bot.check_jailed_member.running :
+            self.bot.check_jailed_member.start()
 
     @module_base.subcommand("release", sub_cmd_description="手动释放囚犯")
     @interactions.slash_option(

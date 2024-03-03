@@ -1,12 +1,13 @@
 import json
+from json.decoder import JSONDecodeError
 import os
  
 def load_jailed_members():
 
     try:
         with open(f'{os.path.dirname(__file__)}/jailed_members.json', 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
+            return json.loads(f)
+    except FileNotFoundError or JSONDecodeError :
         return {}
 
 

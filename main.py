@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 import interactions
+from interactions import Task
 from datetime import datetime, timedelta
 import asyncio
 import os
@@ -95,17 +96,17 @@ class RoleManager(interactions.Extension):
         else:
             await ctx.send('你无权这么做!')
     
-    @interactions.listen(interactions.api.events.MessageCreate)
-    async def check_jailed_member(self,event:interactions.api.events.MessageCreate):
+
+    
+    @Task.create(Task.IntervalTrigger(seconds=5))
+    async def check_jailed_member(self):
         c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup(f'{os.path.dirname(__file__)}/bot_setup.json')
         guild=self.bot.get_guild(guild_id)
         
         jailed_members = jail_info.load_jailed_members()
 
         if not jailed_members:
-                
-            await asyncio.sleep(5)
-            return
+                return
         
         for member_id, info in list(jailed_members.items()):
             release_time = datetime.fromisoformat(info["release_time"])
@@ -122,7 +123,9 @@ class RoleManager(interactions.Extension):
                     del jailed_members[member_id]
                     jail_info.save_jailed_members(jailed_members)
 
-        await asyncio.sleep(5) # Check every 60 seconds
+    @interactions.listen(interactions.api.events.ExtensionLoad)
+    async def start_checking_jailed_members(self):
+        self.bot.check_jailed_member.start()
 
     @module_base.subcommand("release", sub_cmd_description="手动释放囚犯")
     @interactions.slash_option(

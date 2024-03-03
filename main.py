@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 import interactions
-from interactions import Task
+from interactions import Task,IntervalTrigger
 from datetime import datetime, timedelta
 import asyncio
 import os
@@ -98,7 +98,7 @@ class RoleManager(interactions.Extension):
     
 
     
-    @Task.create(Task.IntervalTrigger(seconds=5))
+    @Task.create(IntervalTrigger(seconds=5))
     async def check_jailed_member(self):
         c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup(f'{os.path.dirname(__file__)}/bot_setup.json')
         guild=self.bot.get_guild(guild_id)

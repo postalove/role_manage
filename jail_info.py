@@ -7,7 +7,7 @@ def load_jailed_members():
     try:
         with open(f'{os.path.dirname(__file__)}/jailed_members.json', 'r') as f:
             return json.loads(f)
-    except FileNotFoundError or JSONDecodeError :
+    except FileNotFoundError or JSONDecodeError:
         return {}
 
 

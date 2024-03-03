@@ -124,10 +124,19 @@ class RoleManager(interactions.Extension):
                     del jailed_members[member_id]
                     jail_info.save_jailed_members(jailed_members)
 
-    @interactions.listen(interactions.api.events.MessageCreate)
-    async def start_checking_jailed_members(self):
+    @module_base.subcommand(sub_cmd_name='start',sub_cmd_description='开始检查囚犯')
+    async def start_checking_jailed_members(self,ctx:interactions.SlashContext):
+        tech = interactions.utils.get(ctx.guild.roles, name='技术公务员')
+        if tech not in ctx.author.roles:
+            ctx.send('你无权这么做!')
+            return
         if not self.bot.check_jailed_member.running :
             self.bot.check_jailed_member.start()
+            await ctx.send('自动释放囚犯程序已启动')
+            return
+        else:
+            await ctx.send('已启动自动释放囚犯!')
+
 
     @module_base.subcommand("release", sub_cmd_description="手动释放囚犯")
     @interactions.slash_option(

@@ -170,7 +170,7 @@ class RoleManager(interactions.Extension):
                 log_channel = ctx.guild.get_channel(log_channel_id)
                 embed = interactions.Embed(
         title=f"",
-        description="{ctx.user.mention} released {member.mention}",
+        description=f"{ctx.user.mention} released {member.mention}",
         color=0x00FF00
     )
                 await log_channel.send(embed=embed)

@@ -51,19 +51,22 @@ class RoleManager(interactions.Extension):
     name="days",
     description='days',
     opt_type=interactions.OptionType.INTEGER,
-    min_value=0
+    min_value=0,
+    max_value=5000
     )   
     @interactions.slash_option(
     name="hours",
     description='hours',
     opt_type=interactions.OptionType.INTEGER,
-    min_value=0
+    min_value=0,
+    max_value=5000
     )   
     @interactions.slash_option(
     name="minutes",
     description='minutes',
     opt_type=interactions.OptionType.INTEGER,
-    min_value=0
+    min_value=0,
+    max_value=5000
     )
     async def jail_member(self, ctx: interactions.SlashContext, member:interactions.Member,days: int = 0, hours: int = 0, minutes: int = 0):
         await ctx.defer()

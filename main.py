@@ -99,6 +99,8 @@ class RoleManager(interactions.Extension):
             await log_channel.send(embed=embed)
         else:
             await ctx.send('你无权这么做!')
+        if not self.check_jailed_member.running :
+                self.check_jailed_member.start()
     
 
     

@@ -142,6 +142,10 @@ class RoleManager(interactions.Extension):
         else:
             await ctx.send('已启动自动释放囚犯!')
 
+    @interactions.listen(interactions.api.events.MessageCreate)
+    async def auto_check_jailed_member(self,event:interactions.api.events.MessageCreate):
+         if not self.check_jailed_member.running:
+              self.check_jailed_member.start()
 
     @module_base.subcommand("release", sub_cmd_description="手动释放囚犯")
     @interactions.slash_option(

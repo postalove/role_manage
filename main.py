@@ -84,10 +84,10 @@ class RoleManager(interactions.Extension):
             await member.remove_role(citizen)
             await member.remove_role(voter)
             
-            jailed_members = jail_info.load_jailed_members()
+            jailed_members = await jail_info.load_jailed_members()
             release_time = datetime.utcnow() + timedelta(minutes=duration_minutes)
             jailed_members[str(member.id)] = {"release_time": release_time.isoformat()}
-            jail_info.save_jailed_members(jailed_members)
+            await jail_info.save_jailed_members(jailed_members)
             await ctx.send(f"{member.mention} has been jailed for {days} days, {hours} hours, and {minutes} minutes.")
             log_channel = ctx.guild.get_channel(log_channel_id)
             embed = interactions.Embed(
@@ -109,7 +109,7 @@ class RoleManager(interactions.Extension):
         c, allowed_roles, log_channel_id,guild_id = load_constant.extract_bot_setup(f'{os.path.dirname(__file__)}/bot_setup.json')
         guild=self.bot.get_guild(guild_id)
         
-        jailed_members = jail_info.load_jailed_members()
+        jailed_members = await jail_info.load_jailed_members()
 
         if not jailed_members:
                 return
@@ -127,7 +127,7 @@ class RoleManager(interactions.Extension):
                     await member.add_role(citizen)
 
                     del jailed_members[member_id]
-                    jail_info.save_jailed_members(jailed_members)
+                    await jail_info.save_jailed_members(jailed_members)
 
     @module_base.subcommand(sub_cmd_name='start',sub_cmd_description='开始检查囚犯')
     async def start_checking_jailed_members(self,ctx:interactions.SlashContext):
@@ -166,10 +166,10 @@ class RoleManager(interactions.Extension):
         
 
             # Remove jailed member info from the file
-            jailed_members = jail_info.load_jailed_members()
+            jailed_members = await jail_info.load_jailed_members()
             if str(member.id) in jailed_members:
                 del jailed_members[str(member.id)]
-                jail_info.save_jailed_members(jailed_members)
+                await jail_info.save_jailed_members(jailed_members)
                 await member.remove_role(prisoner)
                 await member.add_role(citizen)
                 await ctx.send(f"{member.mention} has been manually released from jail.")
